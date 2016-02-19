@@ -288,7 +288,7 @@ function s:LanguageToolCheck(line1, line2) "{{{1
     " Reformat the output of LanguageTool (XML is not human friendly) and
     " set up syntax highlighting in the buffer which shows all errors.
     sil %d
-    call append(0, '# ' . l:languagetool_cmd)
+    " call append(0, '# ' . l:languagetool_cmd)
     set bt=nofile
     setlocal nospell
     syn clear
@@ -304,7 +304,7 @@ function s:LanguageToolCheck(line1, line2) "{{{1
       \ . ' ('  . l:error['ruleId'] . ':' . l:error['subId'] . ')'
       \ . ' @ ' . l:error['fromy'] . 'L ' . l:error['fromx'] . 'C')
       call append('$', 'Message:    '     . l:error['msg'])
-      call append('$', 'Context:    '     . l:error['context'])
+      call append('$', 'Context:    '     . substitute(l:error['context'], '^\_s*\(.\{-}\)\_s*$', '\1', ''))
 
       if l:error['ruleId'] =~ 'HUNSPELL_RULE\|HUNSPELL_NO_SUGGEST_RULE\|MORFOLOGIK_RULE_.*\|GERMAN_SPELLER_RULE'
         exe "syn match LanguageToolSpellingError '"
